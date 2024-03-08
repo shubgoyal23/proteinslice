@@ -5,6 +5,7 @@ import { connectDb } from "./db/conectDb.js";
 dotenv.config();
 const port = Number(process.env.PORT) + 1;
 
+console.log("this", process.env.RAZORPAY_KEY_ID)
 
 connectDb().then(() => {
    app.listen(port, () => {
