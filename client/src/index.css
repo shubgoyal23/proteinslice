@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#h1-grad {
+    background: -webkit-linear-gradient(#45B649 ,#DCE35B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
