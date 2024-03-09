@@ -6,7 +6,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Product } from "../modles/products.models.js";
 import { Order } from "../modles/oders.models.js";
 import { stringify } from "querystring";
-import { User } from "../modles/user.models.js";
 
 const createOrder = asyncHandler(async (req, res) => {
   const { cart } = req.body;
@@ -14,29 +13,16 @@ const createOrder = asyncHandler(async (req, res) => {
   if (cart.length === 0) {
     throw new ApiError(401, "Your Cart is empty");
   }
-  async function getCartItems(cart) {
-    const itemsPromises = cart.map(async (item) => {
-      const product = await Product.findById(item?._id);
+  let cardids = cart.map((item) => item._id);
+  const cartItems = await Product.find({ _id: { $in: cardids } }).lean();
 
-      if (!product) {
-        throw new ApiError(404, "Items are not valid in your cart");
-      }
-      const quantity = Number(item.quantity);
+  const mergedCartItems = cartItems.map((item) => {
+    const quantity = cart.find((cartItem) => cartItem._id === (item._id).toString())?.quantity || 0
+    const price = (quantity * (item?.price * (100 - item?.discount))).toFixed(0);
+    return { productId: item._id, price: price, quantity: quantity };
+  });
 
-      const price = (
-        quantity *
-        (product?.price * (100 - product?.discount))
-      ).toFixed(0);
-      return { price, productId: product._id, quantity };
-    });
-
-    const items = await Promise.all(itemsPromises);
-    return items;
-  }
-
-  const cartItems = await getCartItems(cart);
-
-  const amount = cartItems.reduce((acc, crr) => {
+  const amount = mergedCartItems.reduce((acc, crr) => {
     return acc + Number(crr.price);
   }, 0);
 
@@ -56,7 +42,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
   const order = await Order.create({
     userId: req?.user?._id,
-    items: cartItems,
+    items: mergedCartItems,
     total: amount,
     status: "pending",
     payment: data.id,

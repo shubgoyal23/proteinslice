@@ -17,7 +17,7 @@ const reviewSchema = mongoose.Schema(
       max: 5
     },
     comment: {
-      tpye: String,
+      type: String,
     },
   },
   { timestamps: true }

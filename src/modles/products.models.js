@@ -55,12 +55,7 @@ const productSchema = new mongoose.Schema(
       type: Map,
       of: String,
     },
-    reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Review",
-      },
-    ],
+    rating: String,
     relatedProducts: [
       {
         type: mongoose.Schema.Types.ObjectId,
