@@ -7,23 +7,23 @@ import conf from "../../service/conf/conf";
 
 function Payment() {
   const cart = useSelector((state) => state.cart.items);
-  const user = useSelector((state) => state.authentication.isLogged);
+  const user = useSelector((state) => state.authentication);
   const [total, setTotal] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
+    if (!user.isLogged) {
       navigate("/login");
     }
-    setValue("name", user?.fullname);
-    setValue("email", user?.email);
-    setValue("phone", user?.phone);
-    setValue("address", `${user?.house} ${user?.street}`);
-    setValue("city", user?.city);
-    setValue("country", user?.country);
-    setValue("state", user?.state);
-    setValue("zip", user?.zip);
-  }, []);
+    setValue("name", user?.userData?.fullname);
+    setValue("email", user?.userData?.email);
+    setValue("phone", user?.userData?.phone);
+    setValue("address", `${user?.userData?.address?.house} ${user?.userData?.address?.street}`);
+    setValue("city", user?.userData?.address?.city);
+    setValue("country", user?.userData?.address?.country);
+    setValue("state", user?.userData?.address?.state);
+    setValue("zip", user?.userData?.address?.zip);
+  }, [user]);
 
   useEffect(() => {
     let total = cart.reduce((accumulator, currentValue) => {
@@ -99,7 +99,7 @@ function Payment() {
               <p className="text-gray-500 dark:text-gray-300 mb-6">
                 Please Fill Correct Details To get Faster Delicvery
               </p>
-              <div className="bg-gray-300 dark:bg-gray-600 rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+              <div className="bg-gray-300 dark:bg-gray-600 backdrop-blur-sm rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                 <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                   <div className="text-gray-600 dark:text-gray-50">
                     <p className="font-medium text-lg">Personal Details</p>
@@ -122,7 +122,7 @@ function Payment() {
                             type="text"
                             name="full_name"
                             id="full_name"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 dark:bg-gray-500"
                             {...register("name", {
                               required: true,
                             })}
@@ -139,7 +139,7 @@ function Payment() {
                             type="text"
                             name="email"
                             id="email"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 dark:bg-gray-500"
                             placeholder="email@domain.com"
                             {...register("email", {
                               required: true,
@@ -155,12 +155,12 @@ function Payment() {
                             </span>
                           )}
                           <input
-                            type="number"
+                            type="text"
                             name="phone"
                             id="P_number"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 dark:bg-gray-500"
                             placeholder=""
-                            {...register("mobile", {
+                            {...register("phone", {
                               required: true,
                             })}
                           />
@@ -177,7 +177,7 @@ function Payment() {
                             type="text"
                             name="address"
                             id="address"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 dark:bg-gray-500"
                             {...register("address", {
                               required: true,
                             })}
@@ -194,7 +194,7 @@ function Payment() {
                             type="text"
                             name="city"
                             id="city"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 dark:bg-gray-500"
                             defaultValue=""
                             {...register("city", {
                               required: true,
@@ -203,7 +203,7 @@ function Payment() {
                         </div>
                         <div className="md:col-span-2">
                           <label htmlFor="country">Country / region</label>
-                          <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
+                          <div className="h-10 bg-gray-50 dark:bg-gray-500 flex border border-gray-200 rounded items-center mt-1">
                             {errors.country && (
                               <span className="text-xs text-red-600">
                                 This field is required
@@ -213,7 +213,7 @@ function Payment() {
                               name="country"
                               id="country"
                               placeholder="Country"
-                              className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                              className="px-4 appearance-none outline-none w-full bg-transparent"
                               {...register("country", {
                                 required: true,
                               })}
@@ -222,7 +222,7 @@ function Payment() {
                         </div>
                         <div className="md:col-span-2">
                           <label htmlFor="state">State / province</label>
-                          <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
+                          <div className="h-10 bg-gray-50 dark:bg-gray-500 flex border border-gray-200 rounded items-center mt-1">
                             {errors.state && (
                               <span className="text-xs text-red-600">
                                 This field is required
@@ -232,7 +232,7 @@ function Payment() {
                               name="state"
                               id="state"
                               placeholder="State"
-                              className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                              className="px-4 appearance-none outline-none w-full bg-transparent"
                               {...register("state", {
                                 required: true,
                               })}
@@ -250,7 +250,7 @@ function Payment() {
                             type="text"
                             name="zipcode"
                             id="zipcode"
-                            className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 dark:bg-gray-500"
                             placeholder=""
                             defaultValue=""
                             {...register("zip", {
