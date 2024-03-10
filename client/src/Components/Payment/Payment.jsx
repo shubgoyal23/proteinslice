@@ -23,7 +23,7 @@ function Payment() {
     setValue("country", user?.country);
     setValue("state", user?.state);
     setValue("zip", user?.zip);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     let total = cart.reduce((accumulator, currentValue) => {
