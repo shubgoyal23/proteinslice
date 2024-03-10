@@ -49,7 +49,7 @@ const createuser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "user Creation failed try again later");
   }
 
- return res
+  return res
     .status(200)
     .json(new ApiResponse(200, user, "user registered Succesfully"));
 });
@@ -169,7 +169,7 @@ const currentUser = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(401, {}, "Access Token Expired"));
     }
-   throw new ApiError(404, "failed to get userDate try Refreshing page")
+    throw new ApiError(404, "failed to get userDate try Refreshing page");
   }
 });
 
@@ -180,7 +180,7 @@ const updateDetails = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
   if (fullname) user.fullname = fullname;
-  if (email) {
+  if (email && user.email !== email) {
     const checkEmail = await User.findOne({ email });
     if (checkEmail) {
       throw new ApiError(401, "Email already Registered");
@@ -188,7 +188,7 @@ const updateDetails = asyncHandler(async (req, res) => {
     user.email = email;
   }
 
-  if (phone) {
+  if (phone && user.phone !== phone) {
     const checkPhone = await User.findOne({ phone });
     if (checkPhone) {
       throw new ApiError(401, "Phone already Registered");
@@ -197,6 +197,19 @@ const updateDetails = asyncHandler(async (req, res) => {
   }
 
   user.save({ validateBeforeSave: true });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Account details updated successfully"));
+});
+const updateAddress = asyncHandler(async (req, res) => {
+  const { house, street, city, state, country, zip } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    { address: { house, street, city, state, country, zip } },
+    { new: true }
+  )?.select("-password -refreshToken");
 
   return res
     .status(200)
@@ -213,7 +226,7 @@ const refereshTokens = asyncHandler(async (req, res) => {
   try {
     const decodedToken = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
-    const user = await User.findById(decodedToken?._id)
+    const user = await User.findById(decodedToken?._id);
 
     if (!user) {
       throw new ApiError(401, "Refresh token is invalid");
@@ -231,14 +244,14 @@ const refereshTokens = asyncHandler(async (req, res) => {
       secure: true,
     };
 
-   return res
+    return res
       .status(200)
       .cookie("refreshToken", refreshToken, options)
       .cookie("accessToken", accessToken, options)
       .json(
         new ApiResponse(
           200,
-          { accessToken, refreshToken},
+          { accessToken, refreshToken },
           "access Token refreshed Successful"
         )
       );
@@ -255,4 +268,5 @@ export {
   currentUser,
   updateDetails,
   refereshTokens,
+  updateAddress,
 };

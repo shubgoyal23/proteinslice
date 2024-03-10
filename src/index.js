@@ -3,7 +3,7 @@ import {app} from "./app.js"
 import { connectDb } from "./db/conectDb.js";
 
 dotenv.config();
-const port = Number(process.env.PORT) + 0;
+const port = Number(process.env.PORT) + 1;
 
 connectDb().then(() => {
    app.listen(port, () => {

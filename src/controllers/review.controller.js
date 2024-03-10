@@ -73,7 +73,7 @@ const updateReview = asyncHandler(async (req, res) => {
     throw new ApiError(500, "review id is not correct");
   }
 
-  const check = edit.user.equals(req.user?._id)
+  const check = edit.user.equals(req.user?._id);
   if (!check) {
     throw new ApiError(403, "Not Authoried to make this changes");
   }
@@ -102,31 +102,51 @@ const deleteReview = asyncHandler(async (req, res) => {
     throw new ApiError(500, "review id is not correct");
   }
 
-  const check = review.user.equals(req.user?._id)
+  const check = review.user.equals(req.user?._id);
   if (!check) {
     throw new ApiError(403, "Not Authoried to delete");
   }
 
-  await Review.findByIdAndDelete(id)
+  await Review.findByIdAndDelete(id);
 
   return res
     .status(200)
     .json(new ApiResponse(200, {}, "review deleted successfully"));
 });
 
-const getAllReviews = asyncHandler(async(req, res) => {
-    const {id} = req.params
-    if(!id){
-        throw new ApiError(401, "id is required to get reviews")
-    }
+const getAllReviews = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new ApiError(401, "id is required to get reviews");
+  }
 
-    const reviews = await Review.find({product: id})
+  const reviews = await Review.find({ product: id });
 
-    if(reviews.length === 0){
-        throw new ApiError(401, "No review found for this product")
-    }
+  if (reviews.length === 0) {
+    throw new ApiError(401, "No review found for this product");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, reviews, "reviews fetched successfull"));
+});
+
+const allReviewsOfUser = asyncHandler(async (req, res) => {
+  const reviews = await Review.aggregate([
+    { $match: { user: req.user._id } },
     
-    return res.status(200).json(new ApiResponse(200, reviews, "reviews fetched successfull"))
-})
+  ]);
 
-export { addReview, getReview, updateReview, deleteReview, getAllReviews };
+  res
+    .status(200)
+    .json(new ApiResponse(200, reviews, "reviews fetched successfully"));
+});
+
+export {
+  addReview,
+  getReview,
+  updateReview,
+  deleteReview,
+  getAllReviews,
+  allReviewsOfUser,
+};

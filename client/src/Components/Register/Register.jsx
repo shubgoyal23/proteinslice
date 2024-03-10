@@ -7,7 +7,7 @@ import axios from "axios";
 import conf from "../../service/conf/conf";
 
 function Register() {
-    const [err, setErr] = useState("")
+   const [err, setErr] = useState("")
    const user = useSelector((state) => state.authentication);
    const navigate = useNavigate();
    const dispatch = useDispatch();

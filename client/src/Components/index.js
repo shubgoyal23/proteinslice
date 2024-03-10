@@ -16,6 +16,11 @@ import Checkout from "./CheckOut/CheckOut";
 import Globalcart from "./GlobalCart/Globalcart";
 import Payment from "./Payment/Payment";
 import MyAccount from "./Account/MyAccount";
+import Dashboard from "./Account/dashboard/Dashboard";
+import Edit from "./Account/Edit/Edit";
+import Address from "./Account/Address/Address";
+import AllOrders from "./Account/oders/AllOrders";
+import Reviews from "./Account/reviews/Reviews";
 export {
    Theme,
    Layout,
@@ -34,5 +39,10 @@ export {
    Globalcart,
    Checkout,
    Payment,
-   MyAccount
+   MyAccount,
+   Dashboard,
+   Edit,
+   Address,
+   AllOrders,
+   Reviews
 };

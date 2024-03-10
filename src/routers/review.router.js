@@ -1,6 +1,6 @@
 import {Router} from 'express'
 import { verifyJwt } from '../middleware/auth.middleware.js'
-import { addReview, getReview, updateReview, deleteReview, getAllReviews } from '../controllers/review.controller.js'
+import { addReview, getReview, updateReview, deleteReview, getAllReviews, allReviewsOfUser } from '../controllers/review.controller.js'
 
 const router = Router()
 
@@ -11,6 +11,7 @@ router.route("").patch(verifyJwt, updateReview)
 router.route("").delete(verifyJwt, deleteReview)
 
 
-router.route("/all/:id").get(getAllReviews)
+router.route("/all/:id").get(getAllReviews) // get all reviews of product
+router.route("/list").get(verifyJwt, allReviewsOfUser) // get all reviews of an user
 
 export default router
