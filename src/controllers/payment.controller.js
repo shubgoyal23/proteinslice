@@ -106,7 +106,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
       pi: razorpay_payment_id,
       oi: razorpay_order_id,
     });
-    order.status = "Verified";
+    order.status = "Payment Recieved";
     await order.save({ validateBeforeSave: false });
 
     res.redirect(`/payment/success/${razorpay_order_id}`);
