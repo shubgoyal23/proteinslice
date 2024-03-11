@@ -42,6 +42,7 @@ const router = createBrowserRouter([
         element: <MyAccount />,
         children: [
           { path: "", element: <Dashboard /> },
+          { path: "dash", element: <Dashboard /> },
           { path: "edit", element: <Edit /> },
           { path: "address", element: <Address /> },
           { path: "orders", element: <AllOrders /> },

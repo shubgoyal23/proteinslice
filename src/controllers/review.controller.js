@@ -134,7 +134,19 @@ const getAllReviews = asyncHandler(async (req, res) => {
 const allReviewsOfUser = asyncHandler(async (req, res) => {
   const reviews = await Review.aggregate([
     { $match: { user: req.user._id } },
-    
+    {
+      $lookup: {
+        from: "products",
+        localField: "product",
+        foreignField: "_id",
+        as: "product",
+      },
+    },
+    {
+      $addFields: {
+        product: { $arrayElemAt: ["$product", 0] },
+      },
+    },
   ]);
 
   res

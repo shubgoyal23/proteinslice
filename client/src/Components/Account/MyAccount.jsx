@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 function MyAccount() {
   const user = useSelector((state) => state.authentication.userData);
@@ -15,19 +15,19 @@ function MyAccount() {
 
             <ul>
               <li className="mb-1 text-gray-400 cursor-pointer">
-                <Link to="/account">Account Dashboard</Link>
+                <NavLink to="/account/dash" className={({ isActive }) => isActive ? "text-amber-500" : "" }>Account Dashboard</NavLink>
               </li>
               <li className="mb-1 text-gray-400 cursor-pointer">
-                <Link to="/account/edit">Edit User Details</Link>
+                <NavLink to="/account/edit" className={({ isActive }) => isActive ? "text-amber-500" : "" }>Edit User Details</NavLink>
               </li>
               <li className="mb-1 text-gray-400 cursor-pointer">
-                <Link to="/account/address">Edit Address Details</Link>
+                <NavLink to="/account/address" className={({ isActive }) => isActive ? "text-amber-500" : "" }>Edit Address Details</NavLink>
               </li>
               <li className="mb-1 text-gray-400 cursor-pointer">
-                <Link to="/account/orders">All Oders</Link>
+                <NavLink to="/account/orders" className={({ isActive }) => isActive ? "text-amber-500" : "" }>All Oders</NavLink>
               </li>
               <li className="mb-1 text-gray-400 cursor-pointer">
-                <Link to="/account/reviews">Reveiws</Link>
+                <NavLink to="/account/reviews" className={({ isActive }) => isActive ? "text-amber-500" : "" }>Reveiws</NavLink>
               </li>
             </ul>
           </div>

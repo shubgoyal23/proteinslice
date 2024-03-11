@@ -7,7 +7,7 @@ function Reviews() {
   const [reviewDate, setReviewData] = useState([]);
   useEffect(() => {
     axios
-      .get(`${conf}/api/v1/reviews/list`, {}, { withCredentials: true })
+      .get(`${conf.URL}/api/v1/reviews/list`, {}, { withCredentials: true })
       .then((res) => {
         setReviewData(res.data?.data);
       })
@@ -15,7 +15,8 @@ function Reviews() {
   }, []);
   return (<div>
     <h1 className="text-xl font-semibold underline">All reviews</h1>
-    <ReviewCard />
+    
+    {reviewDate?.map(item => <ReviewCard key={item._id} data={item} />)}
   </div>)
 }
 

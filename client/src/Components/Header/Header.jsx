@@ -72,8 +72,8 @@ function Header() {
                      key={url}
                      to={url}
                      className={({ isActive }) =>
-                        `text-lime-500 text-2xl font-medium hover:text-amber-400 flex justify-center items-center ${
-                           isActive ? "text-amber-400" : ""
+                        `text-2xl font-medium hover:text-amber-400 flex justify-center items-center ${
+                           isActive ? "text-amber-400" : "text-lime-500"
                         }`
                      }
                      onClick={() =>
