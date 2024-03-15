@@ -8,7 +8,7 @@ function AllOrders() {
 
   useEffect(() => {
     axios
-      .get(`${conf.URL}/api/v1/orders/`, {}, { withCredentials: true })
+      .get(`${conf.URL}/api/v1/orders`, {}, { withCredentials: true })
       .then((res) => {
         setOrdersList(res.data?.data);
       })

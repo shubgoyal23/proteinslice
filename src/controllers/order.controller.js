@@ -11,16 +11,31 @@ const getUsersOrder = asyncHandler(async (req, res) => {
         from: "products",
         foreignField: "_id",
         localField: "items.productId",
-        as: "products",
+        as: "items.product",
       },
     },
     {
       $group: {
         _id: "$_id",
-        productslist: { $addToSet: { $first: "$products" } },
+        items: { $push: '$items' } ,
         status: { $first: "$status" },
         createdAt: { $first: "$createdAt" },
         total: { $first: "$total" },
+      },
+    },
+    {
+      $project: {
+        "items.product._id": 1,
+        "items.product.name": 1,
+        "items.product.description": 1,
+        "items.product.price": 1,
+        "items.product.images": 1,
+        "items.product.images": 1,
+        "items.quantity": 1,
+        "items.price": 1,
+        "status": 1,
+        "createdAt": 1,
+        "total": 1,
       },
     },
   ]);

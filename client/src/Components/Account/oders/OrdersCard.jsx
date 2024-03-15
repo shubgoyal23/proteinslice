@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import convertDate from "../../../service/date/convertDate.js";
 
 function OrdersCard({ data }) {
+  const [showDetails, setShowDetails] = useState(false)
   return (
     <div className="w-full flex border-2 border-gray-400 dark:border-gray-300 rounded-lg my-5 p-2">
       <div className="size-16 rounded-full overflow-hidden m-4 mr-0">
         <img
-          src={data?.productslist[0]?.images[0]}
-          alt={data?.productslist[0]?.name}
+          src={data?.items[0]?.product[0]?.images[0]}
+          alt={data?.items[0]?.product[0]?.name}
           className="w-full h-full object-cover"
         />
       </div>
       <div className="p-3 ml-2">
         <h1 className="text-2xl text-lime-400 mb-6 line-clamp-1">
-          {data?.productslist?.map((item) => (
-            <span key={item._id}>{item.name}, </span>
+          {data?.items?.map((item) => (
+            <span key={item._id}>{item.product[0]?.name}, </span>
           ))}
         </h1>
         <h1 className="text-lg">
@@ -37,7 +38,7 @@ function OrdersCard({ data }) {
           </span>{" "}
         </h1>
 
-        <button className="mt-6 text-blue-600">More Details</button>
+        <button className="mt-6 text-blue-600" onClick={() => {setShowDetails(prev => !prev)}}>{!showDetails? "More Details" : "Hide details"}</button>
       </div>
     </div>
   );
