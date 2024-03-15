@@ -11,10 +11,10 @@ const verificationSchema = new mongoose.Schema({
     }
 },{timestamps: true})
 
-verificationSchema.pre("save", function(next){
+verificationSchema.pre("save", async function(next){
     if(!this.isModified("code")) return next()
 
-    this.code = bcrypt.hash(this.code, 10)
+    this.code = await bcrypt.hash(this.code, 10)
     next()
 })
 

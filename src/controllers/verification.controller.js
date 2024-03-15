@@ -71,9 +71,7 @@ const verifycode = asyncHandler(async (req, res) => {
 
   await Verification.findByIdAndDelete(dbCode._id);
 
-  res
-    .status(200)
-    .json(new ApiResponse(200, {}, "Email verification successfull"));
+  res.redirect("/")
 });
 
 export { generateCode, verifycode };
