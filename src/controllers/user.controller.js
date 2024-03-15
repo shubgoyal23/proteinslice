@@ -3,6 +3,11 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../modles/user.models.js";
 import jwt from "jsonwebtoken";
+import { Verification } from "../modles/verification.models.js";
+import { transporter } from "../utils/Email.js";
+import { v4 as uuidv4 } from 'uuid';
+import { otpTemplate } from "../emailTemplets/verificationMail.js";
+
 
 const generateAccessAndRefereshTokens = async (user) => {
   try {
@@ -18,6 +23,35 @@ const generateAccessAndRefereshTokens = async (user) => {
       500,
       "Something went wrong while generating referesh and access token"
     );
+  }
+};
+
+const sendVerificationMail = async (user) => {
+  try {
+    const code = uuidv4().toString();
+  
+    const createrecord = await Verification.create({
+      userId: user._id,
+      code: code,
+    });
+  
+    if(!createrecord){
+      throw new ApiError(500, "user Verification failed")
+    }
+  
+    await transporter.sendMail({
+      from: '"Proteinslice.com" <verify@proteinslice.com>', 
+      to: user.email,
+      subject: "Verify Your Email", 
+      text: "Email verification mail from ProteinSlice",
+      html: otpTemplate({fullname: user.fullname, code}), // html body
+    })
+
+    return true
+  
+  } catch (error) {
+    console.log(error)
+    return false
   }
 };
 
@@ -49,6 +83,8 @@ const createuser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "user Creation failed try again later");
   }
 
+  await sendVerificationMail(user)
+  
   return res
     .status(200)
     .json(new ApiResponse(200, user, "user registered Succesfully"));
