@@ -1,1 +1,1 @@
-live site (here)[https://proteinslice.com/]
+live site [here](https://proteinslice.com/)
