@@ -1,5 +1,5 @@
 const conf = {
-    URL: "",
+    URL: import.meta.env.VITE_BASE_URL,
  };
  
  export default conf;

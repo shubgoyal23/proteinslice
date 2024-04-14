@@ -1,9 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 #h1-grad {
-    background: -webkit-linear-gradient(#45B649 ,#DCE35B);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background: -webkit-linear-gradient(#45b649, #dce35b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

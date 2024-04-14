@@ -21,7 +21,9 @@ import Edit from "./Account/Edit/Edit";
 import Address from "./Account/Address/Address";
 import AllOrders from "./Account/oders/AllOrders";
 import Reviews from "./Account/reviews/Reviews";
+import StarRating from "./StarRating/StarRating";
 export {
+   StarRating,
    Theme,
    Layout,
    Header,

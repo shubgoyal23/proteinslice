@@ -1,25 +1,26 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import { ApiError } from "./utils/ApiError.js";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import path from 'path';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-
+app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-app.use(express.static(path.join(__dirname, '/../client/dist')));
+app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.use(cookieParser());
 
 import paymentRouter from "./routers/payment.router.js";
 import userRouter from "./routers/user.router.js";
 import ProductRouter from "./routers/products.router.js";
-import reviewRouter from "./routers/review.router.js"
-import orderRouter from "./routers/order.router.js"
+import reviewRouter from "./routers/review.router.js";
+import orderRouter from "./routers/order.router.js";
 import verificationRouter from "./routers/verification.router.js";
 
 app.use("/api/v1/payment", paymentRouter);
@@ -45,8 +46,8 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/../client/dist/index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../client/dist/index.html"));
 });
 
 export { app };
