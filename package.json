@@ -5,7 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "build": "npm i && cd client && npm i && npm run build",
+    "update": "cd frontend && npm run build",
+    "deploy": "pm2 start src/index.js"
   },
   "author": "",
   "license": "ISC",
