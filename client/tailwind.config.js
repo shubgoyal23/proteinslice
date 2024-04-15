@@ -10,5 +10,4 @@ export default {
       poppins: ["Poppins"],
     },
   },
-  plugins: [require("@tailwindcss/line-clamp")],
 };

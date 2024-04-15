@@ -103,10 +103,10 @@ function Home() {
       {/* shipping details */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-16 md:mt-24">
         <div className="md:p-16 md:pr-36 md:ml-6 p-10 pt-16">
-          <h2 className="text-4xl bg-gradient-to-r from-pink-500 to-violet-600 bg-clip-text text-transparent font-cormorant italic mb-4">
+          <h2 className="text-4xl text-center md:text-start bg-gradient-to-r from-pink-500 to-violet-600 bg-clip-text text-transparent font-cormorant italic mb-4">
             Why Choose ProteinSlice?
           </h2>
-          <h2 className="text-7xl font-league w-3/4 text-gray-700 dark:text-gray-100">
+          <h2 className="text-7xl text-center md:text-start font-league md:w-3/4 text-gray-700 dark:text-gray-100">
             THE JOY OF SHOPPING AT ITS BEST
           </h2>
         </div>
@@ -139,14 +139,14 @@ function Home() {
       </section>
 
       {/* single offer */}
-      <section className="w-[90%] mx-auto min-h-screen h-full relative mt-20 z-10 drop-shadow-xl shadow-gray-300/10 shadow-2xl flex items-center justify-between">
+      <section className="w-[90%] mx-auto min-h-screen h-full relative mt-20 z-10 drop-shadow-xl shadow-[0px_0px_178px_31px_rgba(194,179,179,0.33)] flex items-center justify-between">
         <div
-          className="absolute top-0 left-0 w-full h-full bg-scroll bg-cover bg-center bg-blend-multiply brightness-[0.50]"
-          style={{ backgroundImage: "url(./bg-single-offer.jpg)" }}
+          className="absolute top-0 left-0 w-full h-full bg-scroll bg-cover bg-center bg-blend-multiply brightness-[0.8]"
+          style={{ backgroundImage: "url(./bg-single-offer.svg)" }}
         ></div>
 
         <div className="w-full h-full text-center flex flex-col items-center justify-between text-white brightness-100 md:p-16 p-6 py-16">
-          <h2 className="text-5xl text-red-600 font-cormorant italic">
+          <h2 className="text-5xl bg-gradient-to-r from-red-500 via-red-600 to-pink-600 bg-clip-text text-transparent font-bold font-poppins italic">
             Limited-Time Offer
           </h2>
           <h3 className="text-6xl mb-6 mt-3 w-[90%] mx-auto text-center text-white font-league tracking-normal">

@@ -8,9 +8,9 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "./style.css";
 function Corosal() {
    return (
-      <div className="w-full h-72 md:h-[32rem] relative overflow-hidden">
+      <div className="w-full h-[32rem] relative overflow-hidden">
          <div
-            className={`w-full h-72 md:h-[32rem] relative brightness-50 transition-transform ease-out duration-500`}
+            className={`w-full h-[32rem] relative brightness-50 transition-transform ease-out duration-500`}
          >
             <Swiper
                spaceBetween={30}

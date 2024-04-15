@@ -2,13 +2,16 @@ import React from "react";
 
 function StarRating({ rating = 0, size = 4, color= "orange-600" }) {
   return (
-    <div className="space-x-1 flex justify-center mt-10">
+    <>
+      <span className="text-orange-600 hidden"></span>
+      <span className="text-yellow-500 hidden"></span>
+    <div className="space-x-1 flex justify-center">
       {Array(5)
         .fill(0)
         .map((_, i) => (
           <svg
             key={i}
-            className={`size-${size} mx-px fill-current ${rating >= i ? `text-${color}` : "text-gray-300"} `}
+            className={`w-${size} h-${size} mx-px fill-current ${rating >= i ? `text-${color}` : "text-gray-300"} `}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 14 14"
           >
@@ -16,6 +19,7 @@ function StarRating({ rating = 0, size = 4, color= "orange-600" }) {
           </svg>
         ))}
     </div>
+    </>
   );
 }
 

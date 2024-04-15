@@ -30,7 +30,7 @@ function TopProducts() {
     getProducts();
   }, [active]);
   return (
-    <div className="flex justify-between flex-col md:px-16 px-4 mt-24">
+    <div className="flex justify-between flex-col md:px-16 px-1=2 mt-24">
       <h1 className="text-4xl md:text-6xl mb-2 text-center text-gray-600 dark:text-gray-200 font-cormorant font-bold tracking-wide capitalize">
         Explore Our{" "}
         <span className="bg-gradient-to-r from-pink-500 to-violet-600 bg-clip-text text-transparent">
@@ -58,7 +58,7 @@ function TopProducts() {
         ))}
       </div>
       <section className="container mx-auto p-10 pt-2 md:py-12 px-0 md:p-8 md:px-0">
-        <section className="p-5 md:p-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start ">
+        <section className="p-3 md:p-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start ">
           {topProducts.map((items) => (
             <Card key={items._id} {...items} />
           ))}
