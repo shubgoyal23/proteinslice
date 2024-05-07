@@ -27,13 +27,13 @@ function Corosal() {
                className="mySwiper"
             >
                <SwiperSlide>
-                  <img src="./hero1.webp" alt="" />
+                  <img src="https://res.cloudinary.com/dkznkabup/image/upload/f_auto,q_auto/v1/proteinSlice/fdrziuzkjlabpusiqn6g" alt="background image" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="./hero2.webp" alt="" />
+                  <img src="https://res.cloudinary.com/dkznkabup/image/upload/f_auto,q_auto/v1/proteinSlice/xbrceayi1aj0g6pvr3jt" alt="background image" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="./hero3.webp" alt="" />
+                  <img src="https://res.cloudinary.com/dkznkabup/image/upload/f_auto,q_auto/v1/proteinSlice/nx4il1ahknxjash64zeh" alt="background image" />
                </SwiperSlide>
             </Swiper>
          </div>

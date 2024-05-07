@@ -21,7 +21,7 @@ function Home() {
       <section className="w-[90%] mx-auto lg:h-[90vh] h-full relative mt-6 -mb-16 z-10 drop-shadow-xl shadow-gray-300/10 shadow-2xl">
         <div
           className="absolute top-0 left-0 w-full h-full bg-fixed bg-cover bg-center bg-blend-multiply brightness-[0.3]"
-          style={{ backgroundImage: "url(./bg-section.jpg)" }}
+          style={{ backgroundImage: "url(https://res.cloudinary.com/dkznkabup/image/upload/f_auto,q_auto/v1/proteinSlice/kplstdnzjjvoko5a1k81)" }}
         ></div>
 
         <div className="w-full h-full text-center flex flex-col items-start justify-between text-white brightness-100 md:p-16 p-6 py-16">
@@ -74,7 +74,7 @@ function Home() {
       {/* Offer Section */}
       <section
         className="w-full mx-auto h-screen my-6 mt-0 pt-16 flex justify-center flex-col items-center"
-        style={{ backgroundImage: "url(./bg-section-offer.jpg)" }}
+        style={{ backgroundImage: "url(https://res.cloudinary.com/dkznkabup/image/upload/f_auto,q_auto/v1/proteinSlice/gxzzoyqp1rzna6znszxc)" }}
       >
         <h2 className="text-3xl bg-gradient-to-r from-yellow-300 to-red-400 bg-clip-text text-transparent">
           Black Friday Sale
@@ -139,10 +139,10 @@ function Home() {
       </section>
 
       {/* single offer */}
-      <section className="w-[90%] mx-auto min-h-screen h-full relative mt-20 z-10 drop-shadow-xl shadow-[0px_0px_178px_31px_rgba(194,179,179,0.33)] flex items-center justify-between">
+      <section className="w-[90%] mx-auto min-h-screen h-full relative mt-20 z-10 drop-shadow-xl shadow-gray-100 flex items-center justify-between rounded-lg overflow-hidden">
         <div
           className="absolute top-0 left-0 w-full h-full bg-scroll bg-cover bg-center bg-blend-multiply brightness-[0.8]"
-          style={{ backgroundImage: "url(./bg-single-offer.svg)" }}
+          style={{ backgroundImage: "url(https://res.cloudinary.com/dkznkabup/image/upload/f_auto,q_auto/v1/proteinSlice/xuaceoox0gkmf5qlxi8d)" }}
         ></div>
 
         <div className="w-full h-full text-center flex flex-col items-center justify-between text-white brightness-100 md:p-16 p-6 py-16">
