@@ -15,6 +15,7 @@ function ContactForm() {
   } = useForm();
 
   const submitContactForm = async (data) => {
+    console.log(executeRecaptcha)
     if (!executeRecaptcha) return;
     const token = await executeRecaptcha();
     const res = axios.post(

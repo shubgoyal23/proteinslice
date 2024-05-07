@@ -1,8 +1,12 @@
-"use client";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import ContactForm from "./ContactForm";
-
+import { useEffect } from "react";
+import conf from "../../service/conf/conf";
 function Contact() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  console.log("capchat key", conf.RECAPTCHA);
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
@@ -13,9 +17,7 @@ function Contact() {
           Got a technical issue? Want to send feedback about a beta feature?
           Need details about our Business plan? Let us know.
         </p>
-        <GoogleReCaptchaProvider
-          reCaptchaKey={import.meta.env.VITE_PUBLIC_RECAPTCHA_SITE_KEY}
-        >
+        <GoogleReCaptchaProvider reCaptchaKey={conf.RECAPTCHA}>
           <ContactForm />
         </GoogleReCaptchaProvider>
       </div>

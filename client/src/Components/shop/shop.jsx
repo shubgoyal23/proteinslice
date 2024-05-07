@@ -5,6 +5,7 @@ import conf from "../../service/conf/conf";
 function shop() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
+    window.scrollTo(0, 0)
     axios.get(`${conf.URL}/api/v1/product/list`).then((data) => {
       if (data?.data?.success) {
         setProducts(data?.data?.data);
