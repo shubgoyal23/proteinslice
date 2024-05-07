@@ -22,6 +22,7 @@ import ProductRouter from "./routers/products.router.js";
 import reviewRouter from "./routers/review.router.js";
 import orderRouter from "./routers/order.router.js";
 import verificationRouter from "./routers/verification.router.js";
+import contactRouter from "./routers/contact.router.js";
 
 app.use("/api/v1/payment", paymentRouter);
 app.use("/api/v1/users", userRouter);
@@ -29,6 +30,7 @@ app.use("/api/v1/product", ProductRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/verify", verificationRouter);
+app.use("/api/v1/contact", contactRouter);
 
 app.use((err, req, res, next) => {
   if (err instanceof ApiError) {

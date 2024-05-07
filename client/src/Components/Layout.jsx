@@ -2,9 +2,10 @@ import { Outlet } from "react-router-dom";
 import { Header, Footer } from "./index";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logout, login } from "../store/authSlice";
+import { login } from "../store/authSlice";
 import conf from "../service/conf/conf";
 import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
 export default function Layout() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <Toaster />
     </div>
   );
 }
