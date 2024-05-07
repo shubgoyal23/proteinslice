@@ -6,7 +6,7 @@ import { transporter } from "../utils/Email.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import axios from "axios";
 const verifyRecaptcha = async (token) => {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const secretKey = process.env.PS_RECAPTCHA_SECRET_KEY;
   var verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
   return await axios.post(verificationUrl);
 };
