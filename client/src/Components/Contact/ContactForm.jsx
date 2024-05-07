@@ -15,8 +15,10 @@ function ContactForm() {
   } = useForm();
 
   const submitContactForm = async (data) => {
-    console.log(executeRecaptcha)
-    if (!executeRecaptcha) return;
+    if (!executeRecaptcha) {
+      toast.error("captcha loading Failed")
+      return
+    };
     const token = await executeRecaptcha();
     const res = axios.post(
       `${conf.URL}/api/v1/contact`,
