@@ -31,7 +31,7 @@ function ContactForm() {
       }
     );
     toast.promise(res, {
-      loading: "Saving...",
+      loading: "Sending...",
       success: (data) => {
         reset();
         return data.data.message;

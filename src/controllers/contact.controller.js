@@ -7,7 +7,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import axios from "axios";
 const verifyRecaptcha = async (token) => {
   const secretKey = process.env.PS_RECAPTCHA_SECRET_KEY;
-  console.log(secretKey)
   var verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
   return await axios.post(verificationUrl);
 };
@@ -46,7 +45,7 @@ const addContactForm = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, {}, "Constact Form Submitted successfully"));
+    .json(new ApiResponse(200, {}, "Contact Form Submitted successfully"));
 });
 
 export { addContactForm };
