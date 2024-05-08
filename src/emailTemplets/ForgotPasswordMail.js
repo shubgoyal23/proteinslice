@@ -1,4 +1,4 @@
-const otpTemplate = (user) => {
+const forgetPasswordTemplate = (user) => {
   return `<!DOCTYPE html>
   <html>
   
@@ -68,14 +68,16 @@ const otpTemplate = (user) => {
       <div class="container">
           <a href="https://proteinslice.com"><img class="logo"
                   src="https://proteinslice.com/proteinslice-logo-transparent.png" alt="Protenslice Logo"></a>
-          <div class="message">Verify your Email Id</div>
+          <div class="message">Forgot Your Password?</div>
           <div class="body">
               <p>Dear ${user?.fullname}</p>
-              <p>Thank you for registering with proteinslice. To complete your registration, please use the following Link to verify your account:</p>
-              <a class="highlight" href="https://proteinslice.com/verify?code=${user.code}&email=${user.email}">Click Here</a>
-              <p>If you are not able to click copy and past this link: https://proteinslice.com/verify?code=${user.code}&email=${user.email} </p>
-              <p>This Link is valid for 15 minutes. If you did not request this verification, please disregard this email.
-              Once your account is verified, you will have access to our platform and its features.</p>
+              <p>We received a request to reset your password for your ProteinSlice account. We understand that forgetting passwords can happen to anyone, so no worries, we've got you covered!</p>
+              <p>To reset your password, simply click on the link below:</p>
+              <a class="highlight" href="https://proteinslice.com/reset-password?code=${user.code}&email=${user.email}">Click Here</a>
+              <p>If clicking the link doesn't work, copy and paste the URL into your browser's address bar.: https://proteinslice.com/reset-password?code=${user.code}&email=${user.email} </p>
+
+              <p>Once you've clicked the link, you'll be prompted to enter a new password. Please choose a password that is secure and unique to ensure the safety of your account.</p>
+              <p>This Link is valid for 30 minutes. If you did not request this password reset, please ignore this email. Your account security is important to us, and we recommend keeping your password confidential and regularly updating it for added security.</p>
           </div>
           <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
                   href="mailto:contact@proteinslice.com">contact@proteinslice.com</a>. We are here to help!</div>
@@ -84,4 +86,4 @@ const otpTemplate = (user) => {
   
   </html>`;
 };
-export { otpTemplate };
+export { forgetPasswordTemplate };

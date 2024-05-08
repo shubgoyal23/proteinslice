@@ -1,25 +1,20 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
-const verificationSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+const verificationSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
     },
     code: {
-        type: String
-    }
-},{timestamps: true})
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-verificationSchema.pre("save", async function(next){
-    if(!this.isModified("code")) return next()
+verificationSchema.methods.checkCode = async function (code) {
+  return await bcrypt.compare(code, this.code);
+};
 
-    this.code = await bcrypt.hash(this.code, 10)
-    next()
-})
-
-verificationSchema.methods.checkCode = async function(code){
-    return await bcrypt.compare(code, this.code)
-}
-
-export const Verification = mongoose.model("verification", verificationSchema) 
+export const Verification = mongoose.model("verification", verificationSchema);

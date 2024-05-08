@@ -1,49 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store/authSlice";
+import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import conf from "../../service/conf/conf";
+import toast from "react-hot-toast";
 
-function Login() {
-  const user = useSelector((state) => state.authentication);
-  const [err, seterr] = useState("");
+function SendResetMail() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    if (user.isLogged) {
-      navigate("/");
-    }
-  }, [user]);
+  const resetPassword = (data) => {
+    const resetPasswordRequest = axios.post(
+      `${conf.URL}/api/v1/users/forgot-password`,
+      data
+    );
 
-  const loginUSer = (data) => {
-    axios
-      .post(`${conf.URL}/api/v1/users/login`, data, {
-        withCredentials: true,
-      })
-      .then((data) => {
-        if (data?.data?.data) {
-          dispatch(login(data?.data?.data?.userData));
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        seterr(error.response?.data?.message || error.message);
-      });
+    toast.promise(resetPasswordRequest, {
+      loading: "Loading...",
+      success: (data) => {
+        navigate("/");
+        return data?.data?.message;
+      },
+      error: (error) =>
+        `${error.response?.data?.message || error.message}`,
+    });
   };
 
   return (
     <>
-      <form className="max-w-sm mx-auto" onSubmit={handleSubmit(loginUSer)}>
+      <form className="max-w-sm mx-auto" onSubmit={handleSubmit(resetPassword)}>
         <h1 className="text-2xl text-center font-medium text-lime-500 mt-8 mb-6 underline underline-offset-4">
-          Login
+          Reset Password
         </h1>
         <h3 className="text-blue-700 dark:text-amber-400 text-center mt-5 mb-8">
           <Link to="/register">
@@ -51,7 +42,6 @@ function Login() {
           </Link>
         </h3>
 
-        {err && <h2 className="text-red-600 text-center mt-4 mb-8">{err}</h2>}
         <div className="mb-5">
           <label
             htmlFor="email"
@@ -71,24 +61,7 @@ function Login() {
             <span className="text-xs text-red-600">This field is required</span>
           )}
         </div>
-        <div className="mb-5">
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your password
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-            {...register("password", { required: true })}
-          />
-          {errors.password && (
-            <span className="text-xs text-red-600">This field is required</span>
-          )}
-        </div>
+
         <div className="flex items-start mb-5">
           <div className="flex items-center h-5">
             <input
@@ -99,20 +72,12 @@ function Login() {
               required
             />
           </div>
-          <div className="flex justify-between items-center w-full">
-            <label
-              htmlFor="remember"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Remember me
-            </label>
-            <Link
-              to={"/forgot-password"}
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Forgot Password?
-            </Link>
-          </div>
+          <label
+            htmlFor="remember"
+            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            Send me Password Reset Mail.
+          </label>
         </div>
         <button
           type="submit"
@@ -125,4 +90,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SendResetMail;

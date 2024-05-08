@@ -7,10 +7,13 @@ import { Verification } from "../modles/verification.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../modles/user.models.js";
 
-const generateCode = asyncHandler(async (req, res) => {
+const sendVerificationMail = asyncHandler(async (req, res) => {
+  if (req.user.Verification) {
+    throw new ApiError(403, "Email Id is already verified!");
+  }
   const code = uuidv4().toString();
 
-  const checkRecords = await Verification.findOne({ userId: req.user?._id });
+  const checkRecords = await Verification.findOne({ email: req.user?.email });
 
   if (checkRecords) {
     const CurrentTime = new Date();
@@ -25,25 +28,29 @@ const generateCode = asyncHandler(async (req, res) => {
       );
     }
   }
-  await Verification.findOneAndDelete({ userId: req.user?._id });
+  await Verification.findOneAndDelete({ email: req.user?.email });
 
   const mail = await transporter.sendMail({
     from: '"Proteinslice.com" <verify@proteinslice.com>',
     to: req.user?.email,
     subject: "Verify Your Email",
     text: "Email verification mail from ProteinSlice",
-    html: otpTemplate({ fullname: req.user?.fullname, code: code }),
+    html: otpTemplate({
+      fullname: req.user?.fullname,
+      code: code,
+      email: req.user?.email,
+    }),
   });
 
   if (mail.rejected.length !== 0) {
     throw new ApiError(
       500,
-      "email Failed to delever please contact customer Care"
+      "email Failed to deliver please contact customer Care"
     );
   }
 
   const createrecord = await Verification.create({
-    userId: req.user?._id,
+    email: req.user?.email,
     code: code,
   });
 
@@ -51,9 +58,13 @@ const generateCode = asyncHandler(async (req, res) => {
 });
 
 const verifycode = asyncHandler(async (req, res) => {
-  const code = req.params.id;
+  const { code, email } = req.body;
 
-  const dbCode = await Verification.findOne({ userId: req.user?._id });
+  if (!email && !code) {
+    throw new ApiError(401, "Email Id and Code are required");
+  }
+
+  const dbCode = await Verification.findOne({ email });
 
   if (!dbCode) {
     throw new ApiError(403, "verification is not Requested");
@@ -65,13 +76,18 @@ const verifycode = asyncHandler(async (req, res) => {
     throw new ApiError(403, "verification failed");
   }
 
-  await User.findByIdAndUpdate(req.user._id, {
-    $set: { emailVerification: true },
-  });
+  await User.findOneAndUpdate(
+    { email },
+    {
+      $set: { emailVerification: true },
+    }
+  );
 
   await Verification.findByIdAndDelete(dbCode._id);
 
-  res.redirect("/")
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Email Verified successfully"));
 });
 
-export { generateCode, verifycode };
+export { sendVerificationMail, verifycode };

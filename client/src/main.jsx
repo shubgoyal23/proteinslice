@@ -21,6 +21,9 @@ import {
   Address,
   AllOrders,
   Reviews,
+  Verify,
+  SendResetMail,
+  ResetPassword,
 } from "./Components/index";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
@@ -53,6 +56,9 @@ const router = createBrowserRouter([
       { path: "/checkout", element: <Checkout /> },
       { path: "/payment", element: <Payment /> },
       { path: "/payment/success/:id", element: <App /> },
+      { path: "/verify", element: <Verify /> },
+      { path: "/forgot-password", element: <SendResetMail /> },
+      { path: "/reset-password", element: <ResetPassword /> },
     ],
   },
 ]);
