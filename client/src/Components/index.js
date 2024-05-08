@@ -25,6 +25,7 @@ import StarRating from "./StarRating/StarRating";
 import Verify from "./Verify/Verify";
 import SendResetMail from "./ResetPassword/SendResetMail";
 import ResetPassword from "./ResetPassword/ResetPassword";
+import EmailVerifyBtn from "./EmailVerifyBtn/EmailVerifyBtn";
 export {
   StarRating,
   Theme,
@@ -53,4 +54,5 @@ export {
   Verify,
   SendResetMail,
   ResetPassword,
+  EmailVerifyBtn,
 };

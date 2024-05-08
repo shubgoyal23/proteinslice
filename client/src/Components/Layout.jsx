@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import { Header, Footer } from "./index";
+import { Header, Footer, EmailVerifyBtn } from "./index";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import conf from "../service/conf/conf";
 import axios from "axios";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Layout() {
   const dispatch = useDispatch();
@@ -19,6 +19,12 @@ export default function Layout() {
       );
       if (data?.success) {
         dispatch(login(data?.data));
+        toast(`welcome ${data?.data?.fullname}`, {
+          icon: "👏",
+        });
+        if (!data?.data.emailVerification) {
+          toast((t) => <EmailVerifyBtn t={t} />);
+        }
       } else {
         const { data } = await axios.post(
           `${conf.URL}/api/v1/users/token`,
@@ -34,6 +40,12 @@ export default function Layout() {
           );
           if (data?.success) {
             dispatch(login(data?.data));
+            toast(`welcome ${data?.data?.fullname}`, {
+              icon: "👏",
+            });
+            if (!data?.data.emailVerification) {
+              toast((t) => <EmailVerifyBtn t={t} />);
+            }
           }
         }
       }

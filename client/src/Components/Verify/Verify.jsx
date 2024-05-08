@@ -12,7 +12,7 @@ function Verify() {
 
   const verifyEmail = () => {
     if (!email && !code) {
-      toast.error("Email id or Code not Availabe");
+      toast.error("Email id or Code not Available");
     }
 
     const send = axios.post(`${conf.URL}/api/v1/verify`, { email, code });

@@ -5,10 +5,11 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import conf from "../../service/conf/conf";
+import toast from "react-hot-toast";
+import { EmailVerifyBtn } from "../index";
 
 function Login() {
   const user = useSelector((state) => state.authentication);
-  const [err, seterr] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -24,19 +25,23 @@ function Login() {
   }, [user]);
 
   const loginUSer = (data) => {
-    axios
-      .post(`${conf.URL}/api/v1/users/login`, data, {
-        withCredentials: true,
-      })
-      .then((data) => {
+    const loginRequest = axios.post(`${conf.URL}/api/v1/users/login`, data, {
+      withCredentials: true,
+    });
+    toast.promise(loginRequest, {
+      loading: "Logging...",
+      success: (data) => {
         if (data?.data?.data) {
           dispatch(login(data?.data?.data?.userData));
           navigate("/");
+          if (!data?.data?.data?.userData?.emailVerification) {
+            toast((t) => <EmailVerifyBtn t={t} />);
+          }
         }
-      })
-      .catch((error) => {
-        seterr(error.response?.data?.message || error.message);
-      });
+        return `${data?.data?.message}`;
+      },
+      error: (error) => `${error.response?.data?.message || error.message}`,
+    });
   };
 
   return (
@@ -51,7 +56,6 @@ function Login() {
           </Link>
         </h3>
 
-        {err && <h2 className="text-red-600 text-center mt-4 mb-8">{err}</h2>}
         <div className="mb-5">
           <label
             htmlFor="email"
@@ -118,7 +122,7 @@ function Login() {
           type="submit"
           className="text-white bg-lime-500 hover:bg-amber-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Submit
+          Login
         </button>
       </form>
     </>
