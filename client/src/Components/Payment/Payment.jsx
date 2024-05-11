@@ -12,14 +12,16 @@ function Payment() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (!user.isLogged) {
       navigate("/login");
     }
+    const addHouse = user?.userData?.address?.house || "";
+    const addStreet = user?.userData?.address?.street || "";
     setValue("name", user?.userData?.fullname);
     setValue("email", user?.userData?.email);
     setValue("phone", user?.userData?.phone);
-    setValue("address", `${user?.userData?.address?.house} ${user?.userData?.address?.street}`);
+    setValue("address", `${addHouse} ${addStreet}`);
     setValue("city", user?.userData?.address?.city);
     setValue("country", user?.userData?.address?.country);
     setValue("state", user?.userData?.address?.state);
@@ -63,11 +65,10 @@ function Payment() {
       },
       { withCredentials: true }
     );
-
     const options = {
       key: key.data.key,
       amount: oderdetails.data.amount,
-      currency: "INR",
+      currency: oderdetails.data.currency,
       name: "ProteinSlice",
       description: "Payment for Order",
       image: "/proteinslice-logo-transparent.png",

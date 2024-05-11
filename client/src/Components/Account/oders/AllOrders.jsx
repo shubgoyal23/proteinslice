@@ -8,7 +8,7 @@ function AllOrders() {
 
   useEffect(() => {
     axios
-      .get(`${conf.URL}/api/v1/orders`, {}, { withCredentials: true })
+      .get(`${conf.URL}/api/v1/orders`, { withCredentials: true })
       .then((res) => {
         setOrdersList(res.data?.data);
       })
@@ -16,8 +16,8 @@ function AllOrders() {
   }, []);
   return (
     <div>
-      <h1 className="text-xl font-semibold underline">All Orders</h1>
-
+      <h1 className="text-xl font-semibold underline mb-3">All Orders</h1>
+      {!oredrsList.length && <h2>No order found</h2>}
       {oredrsList?.map((item) => (
         <OrdersCard key={item._id} data={item} />
       ))}

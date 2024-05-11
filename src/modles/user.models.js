@@ -73,7 +73,7 @@ const userSchema = new mongoose.Schema(
     ],
     type: {
       type: String,
-      default: "customer"
+      default: "customer",
     },
     address: {
       house: String,
@@ -81,19 +81,28 @@ const userSchema = new mongoose.Schema(
       city: String,
       state: String,
       country: String,
-      zip: String
+      zip: String,
     },
-    wishlist: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product'
-    }],
-    cart: [{
-      productId: {
+    wishlist: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
+        ref: "Product",
       },
-      quantity: Number
-    }]
+    ],
+    cart: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: Number,
+      },
+    ],
+    userCurrency: {
+      type: String,
+      enum: ["INR", "USD", "AED", "EUR", "GBP"],
+      default: "INR",
+    },
   },
   { timestamps: true }
 );
@@ -105,10 +114,10 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.isPassCorrect = async function(password){
-    return await bcrypt.compare(password, this.password)
-}
-userSchema.methods.generateAccessToken = function() {
+userSchema.methods.isPassCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -121,17 +130,16 @@ userSchema.methods.generateAccessToken = function() {
     }
   );
 };
-userSchema.methods.generateRefreshToken = function() {
-    return jwt.sign(
-        {
-            _id: this._id,
-            
-        },
-        process.env.REFRESH_TOKEN_SECRET,
-        {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
-        }
-    )
+userSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+    }
+  );
 };
 
-export const User = mongoose.model("User", userSchema)
+export const User = mongoose.model("User", userSchema);

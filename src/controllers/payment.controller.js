@@ -17,10 +17,16 @@ const createOrder = asyncHandler(async (req, res) => {
   const cartItems = await Product.find({ _id: { $in: cardids } }).lean();
 
   const mergedCartItems = cartItems.map((item) => {
-    const quantity = cart.find((cartItem) => cartItem._id === (item._id).toString())?.quantity || 0
-    const price = (quantity * (item?.price * (100 - item?.discount))).toFixed(0);
+    const quantity =
+      cart.find((cartItem) => cartItem._id === item._id.toString())?.quantity ||
+      0;
+    const price = (quantity * (item?.price * (100 - item?.discount))).toFixed(
+      0
+    );
     return { productId: item._id, price: price, quantity: quantity };
   });
+
+  const itemsName = cartItems.map((item) => item.name);
 
   const amount = mergedCartItems.reduce((acc, crr) => {
     return acc + Number(crr.price);
@@ -33,7 +39,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
   const data = await instance.orders.create({
     amount: amount,
-    currency: "INR",
+    currency: req?.user?.userCurrency,
   });
 
   if (!data || data.error) {
@@ -43,24 +49,30 @@ const createOrder = asyncHandler(async (req, res) => {
   const order = await Order.create({
     userId: req?.user?._id,
     items: mergedCartItems,
+    itemsName: itemsName.toString(),
+    coverImage: cartItems[0]?.images[0],
     total: amount,
     status: "pending",
     payment: data.id,
+    paymentCurrency: req?.user?.userCurrency,
   });
 
   if (!order) {
     throw new ApiError(500, "payment creation failed try Again");
   }
 
-  res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        { orderId: data.id, _id: order._id, amount },
-        "order created successfully"
-      )
-    );
+  res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        orderId: data.id,
+        _id: order._id,
+        amount,
+        currency: req?.user?.userCurrency,
+      },
+      "order created successfully"
+    )
+  );
 });
 const key = asyncHandler(async (req, res) => {
   res

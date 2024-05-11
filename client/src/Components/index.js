@@ -26,6 +26,7 @@ import Verify from "./Verify/Verify";
 import SendResetMail from "./ResetPassword/SendResetMail";
 import ResetPassword from "./ResetPassword/ResetPassword";
 import EmailVerifyBtn from "./EmailVerifyBtn/EmailVerifyBtn";
+import OrderDetails from "./Account/oders/OrderDetails";
 export {
   StarRating,
   Theme,
@@ -55,4 +56,5 @@ export {
   SendResetMail,
   ResetPassword,
   EmailVerifyBtn,
+  OrderDetails,
 };

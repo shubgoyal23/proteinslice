@@ -24,6 +24,7 @@ import {
   Verify,
   SendResetMail,
   ResetPassword,
+  OrderDetails,
 } from "./Components/index";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
           { path: "edit", element: <Edit /> },
           { path: "address", element: <Address /> },
           { path: "orders", element: <AllOrders /> },
+          { path: "order", element: <OrderDetails /> },
           { path: "reviews", element: <Reviews /> },
         ],
       },

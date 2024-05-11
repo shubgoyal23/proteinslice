@@ -20,26 +20,32 @@ const oderItemSchema = new mongoose.Schema(
   { _id: false }
 );
 
-const orderSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const orderSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    itemsName: String,
+    coverImage: String,
+    paymentCurrency: String,
+    items: [oderItemSchema],
+    total: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ["pending", "Payment Recieved", "completed", "shipped"],
+      default: "pending",
+    },
+    payment: {
+      type: String,
+    },
   },
-  items: [oderItemSchema],
-  total: {
-    type: Number,
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-    enum: ["pending", "Payment Recieved", "completed", "shipped"],
-    default: "pending",
-  },
-  payment: {
-    type: String
-  }
-},{timestamps: true});
+  { timestamps: true }
+);
 
-export const Order = mongoose.model("Order", orderSchema)
+export const Order = mongoose.model("Order", orderSchema);

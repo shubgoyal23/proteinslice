@@ -7,15 +7,15 @@ function Reviews() {
   const [reviewDate, setReviewData] = useState([]);
   useEffect(() => {
     axios
-      .get(`${conf.URL}/api/v1/reviews/list`, {}, { withCredentials: true })
+      .get(`${conf.URL}/api/v1/reviews/list`, { withCredentials: true })
       .then((res) => {
         setReviewData(res.data?.data);
       })
       .catch((error) => console.log(error));
   }, []);
   return (<div>
-    <h1 className="text-xl font-semibold underline">All reviews</h1>
-    
+    <h1 className="text-xl font-semibold underline mb-3">All reviews</h1>
+    {!reviewDate.length && <h2>No Rewiew found</h2>}
     {reviewDate?.map(item => <ReviewCard key={item._id} data={item} />)}
   </div>)
 }

@@ -3,7 +3,7 @@ export default function(date){
     let hr = dateTime.getHours()
     let min = dateTime.getMinutes()
     let day = dateTime.getDate()
-    let month = dateTime.getMonth()
+    let month = dateTime.getMonth() + 1
     let year = dateTime.getFullYear()
     let noon = "AM"
    
@@ -21,5 +21,5 @@ export default function(date){
         month = `0${month}`
     }
 
-    return `${hr}:${min}${noon} ${day}/${month}/${year}`
+    return `${hr}:${min} ${noon}, ${day}/${month}/${year}`
 }
