@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Corosal, InfoCard, StarRating } from "../index";
 import TopProducts from "./TopProducts";
 import { Link } from "react-router-dom";
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       {/* main Section */}

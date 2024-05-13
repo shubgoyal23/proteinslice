@@ -9,9 +9,12 @@ const currencySymbolsToSymbols = {
   GBP: "£",
 };
 
-export function currencyConvert(currencyTo, currencyFrom, amount) {
+export async function currencyConvert(currencyTo, currencyFrom, amount) {
   if (!(currencyTo && currencyFrom && amount)) return;
-  const crrlist = getCurrencyListFromLocalStorage();
+  const crrlist = await getCurrencyList();
+  if (!crrlist) {
+    throw Error("currency list not found");
+  }
   const to = crrlist[currencyTo] || 1;
   const from = crrlist[currencyFrom] || 1;
   const amt = amount * (to / from);
@@ -53,8 +56,7 @@ export async function getCurrencyList() {
   let crrlist = getCurrencyListFromLocalStorage();
   if (!crrlist) {
     try {
-      const { data } = await fetchedData();
-      crrlist = data.crrencyList;
+      crrlist = await fetchedData();
       setCurrencyListToLocalStorage(crrlist);
     } catch (error) {
       console.error("Failed to fetch currency list:", error);
@@ -68,7 +70,7 @@ async function fetchedData() {
   try {
     const { data } = await axios.get(`${conf.URL}/api/v1/currencylist`);
     if (data?.data) {
-      return data;
+      return data?.data;
     }
     throw new Error("Currency list not found");
   } catch (error) {

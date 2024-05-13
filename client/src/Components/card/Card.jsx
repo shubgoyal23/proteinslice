@@ -18,13 +18,25 @@ function Card({
   rating,
 }) {
   const userCurrency = getUserCurrency();
-  const displayPrice = currencyConvert(userCurrency, currency, price);
+  const [displayPrice, setDisplayPrice] = useState({
+    amt: price,
+    symbol: "??",
+  });
   const [cardAdded, setCardAdded] = useState(false);
   const dispatch = useDispatch();
   const globalCart = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
   useEffect(() => {
     globalCart.some((item) => item._id === _id) ? setCardAdded(true) : "";
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const data = await currencyConvert(userCurrency, currency, price);
+      if (data) {
+        setDisplayPrice(data);
+      }
+    })();
   }, []);
 
   function addtoCartHandler(e) {
