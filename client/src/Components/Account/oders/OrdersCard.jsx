@@ -30,7 +30,15 @@ function OrdersCard({ data }) {
         </h1>
         <h1 className="text-lg">
           Current Status:
-          <span className="dark:text-gray-300 text-gray-700 ml-2">
+          <span
+            className={` ml-2 ${
+              data?.status === "pending"
+                ? "text-red-500"
+                : data?.status === "returned"
+                  ? "text-orange-500"
+                  : "text-green-500"
+            }`}
+          >
             {data?.status}
           </span>
         </h1>

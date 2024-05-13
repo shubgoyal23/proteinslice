@@ -55,9 +55,9 @@ const getOrdetById = asyncHandler(async (req, res) => {
 });
 
 const getUsersOrder = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ userId: req?.user?._id }).select(
-    "-items -payment"
-  );
+  const orders = await Order.find({ userId: req?.user?._id })
+    .select("-items -payment")
+    .sort({ createdAt: -1 });
 
   return res
     .status(200)
