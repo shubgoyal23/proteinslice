@@ -6,12 +6,41 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Product } from "../modles/products.models.js";
 import { Order } from "../modles/oders.models.js";
 import { stringify } from "querystring";
+import axios from "axios";
+import { OrderDetails } from "../modles/userDetials.model.js";
+import { User } from "../modles/user.models.js";
 
+async function getCurrencyList() {
+  try {
+    const { data } = await axios.get(
+      `https://api.freecurrencyapi.com/v1/latest?apikey=${process.env.CURRENCY_API}`
+    );
+    return data.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+async function currencyConvert(currencyTo, data) {
+  const crrlist = await getCurrencyList();
+
+  const amount = data.reduce((acc, crr) => {
+    const to = crrlist[currencyTo] || 1;
+    const from = crrlist[crr.currency] || 1;
+    const amt = (crr.price * (to / from)).toFixed(0);
+    return acc + Number(amt);
+  }, 0);
+
+  return amount;
+}
 const createOrder = asyncHandler(async (req, res) => {
-  const { cart } = req.body;
+  const { cart, currency, userDetails } = req.body;
 
   if (cart.length === 0) {
     throw new ApiError(401, "Your Cart is empty");
+  }
+  if (!currency) {
+    throw new ApiError(401, "User Currency is required");
   }
   let cardids = cart.map((item) => item._id);
   const cartItems = await Product.find({ _id: { $in: cardids } }).lean();
@@ -23,14 +52,17 @@ const createOrder = asyncHandler(async (req, res) => {
     const price = (quantity * (item?.price * (100 - item?.discount))).toFixed(
       0
     );
-    return { productId: item._id, price: price, quantity: quantity };
+    return {
+      productId: item._id,
+      price: price,
+      quantity: quantity,
+      currency: item.currency,
+    };
   });
 
   const itemsName = cartItems.map((item) => item.name);
 
-  const amount = mergedCartItems.reduce((acc, crr) => {
-    return acc + Number(crr.price);
-  }, 0);
+  const amount = await currencyConvert(currency, mergedCartItems);
 
   const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -39,12 +71,17 @@ const createOrder = asyncHandler(async (req, res) => {
 
   const data = await instance.orders.create({
     amount: amount,
-    currency: req?.user?.userCurrency,
+    currency: currency,
   });
 
   if (!data || data.error) {
     throw new ApiError(500, "payment creation failed");
   }
+
+  const userDet = await OrderDetails.create({
+    userId: req.user._id,
+    ...userDetails,
+  });
 
   const order = await Order.create({
     userId: req?.user?._id,
@@ -55,7 +92,23 @@ const createOrder = asyncHandler(async (req, res) => {
     status: "pending",
     payment: data.id,
     paymentCurrency: req?.user?.userCurrency,
+    userDetails: userDet._id,
   });
+
+  if (userDetails.saveadd) {
+    await User.findByIdAndUpdate(req.user._id, {
+      $set: {
+        address: {
+          house: userDetails.house,
+          street: userDetails.street,
+          city: userDetails.city,
+          country: userDetails.country,
+          state: userDetails.state,
+          zip: userDetails.zip,
+        },
+      },
+    });
+  }
 
   if (!order) {
     throw new ApiError(500, "payment creation failed try Again");

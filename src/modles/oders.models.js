@@ -44,6 +44,10 @@ const orderSchema = new mongoose.Schema(
     payment: {
       type: String,
     },
+    userDetails: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "OrderDetails",
+    },
   },
   { timestamps: true }
 );

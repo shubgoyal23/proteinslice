@@ -33,7 +33,7 @@ function GlobalCart() {
 
         <div className="border-t-2 border-gray-700 dark:border-gray-300 w-full pt-2 mt-4">
           <h1 className="text-2xl text-end">
-            Subtotal ({cart.length} items): ${total?.toFixed(2)}
+            Subtotal ({cart.length} items): {cart[0]?.currency || "$"}{total?.toFixed(2)}
           </h1>
         </div>
 

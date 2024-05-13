@@ -6,10 +6,13 @@ import { login } from "../store/authSlice";
 import conf from "../service/conf/conf";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import {
+  getCurrencyList,
+  setUserCurrency,
+} from "../service/currencyConvertor/currencyConvert";
 
 export default function Layout() {
   const dispatch = useDispatch();
-
   const getuserData = useCallback(async () => {
     try {
       const { data } = await axios.post(
@@ -19,6 +22,7 @@ export default function Layout() {
       );
       if (data?.success) {
         dispatch(login(data?.data));
+        setUserCurrency(data?.data?.userCurrency);
         toast(`welcome ${data?.data?.fullname}`, {
           icon: "👏",
         });
@@ -40,6 +44,7 @@ export default function Layout() {
           );
           if (data?.success) {
             dispatch(login(data?.data));
+            setUserCurrency(data?.data?.userCurrency);
             toast(`welcome ${data?.data?.fullname}`, {
               icon: "👏",
             });
@@ -55,6 +60,7 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
+    getCurrencyList();
     getuserData();
   }, []);
 

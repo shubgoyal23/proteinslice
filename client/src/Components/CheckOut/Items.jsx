@@ -53,7 +53,7 @@ function Items({ data }) {
                </button>
 
                <span className="text-end text-lime-400">
-                  Per Unit : {data.price}
+                  Per Unit : {data.currency}{(data.price).toFixed(2)}
                </span>
             </div>
             <div className="flex gap-2 justify-between items-center w-full md:w-auto mt-6">
@@ -61,11 +61,11 @@ function Items({ data }) {
                   Discount {data.discount}%
                </span>
                <span className="text-sm text-gray-600 dark:text-gray-300">
-                  Price After Discount{" "}
+                  Price After Discount{" "} {data.currency}
                   {((data.price * (100 - data.discount)) / 100).toFixed(2)}
                </span>
                <span className="text-end text-amber-400">
-                  Total :{" "}
+                  Total :{" "} {data.currency}
                   {(
                      (data.price * data.Qty * (100 - data.discount)) /
                      100

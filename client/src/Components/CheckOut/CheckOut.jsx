@@ -32,13 +32,16 @@ function Checkout() {
 
         <div className="border-t-2 border-gray-700 dark:border-gray-300 w-full pt-2 mt-4">
           <h1 className="text-2xl text-end">
-            Subtotal ({cart.length} items): ${total?.toFixed(2)}
+            Subtotal ({cart.length} items): {cart[0]?.currency || "$"}{total?.toFixed(2)}
           </h1>
         </div>
       </div>
 
       <div className="lg:size-72 text-center w-full bg-gray-200 dark:bg-gray-600 mt-4 py-6 rounded-lg">
-        <h1 className="text-2xl mt-6">Total : ${total?.toFixed(2)}</h1>
+        <h1 className="text-2xl mt-6">
+          Total : {cart[0]?.currency || "$"}
+          {total?.toFixed(2)}
+        </h1>
 
         <div className="dark:bg-gray-500 bg-gray-300 rounded-full h-8 mx-auto w-4/5 pl-3 mt-4 flex justify-center items-center">
           <input

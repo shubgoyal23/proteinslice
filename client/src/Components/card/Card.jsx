@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { StarRating } from "../index";
-
+import {
+  getUserCurrency,
+  currencyConvert,
+} from "../../service/currencyConvertor/currencyConvert";
 function Card({
   images,
   name,
@@ -14,6 +17,8 @@ function Card({
   currency,
   rating,
 }) {
+  const userCurrency = getUserCurrency();
+  const displayPrice = currencyConvert(userCurrency, currency, price);
   const [cardAdded, setCardAdded] = useState(false);
   const dispatch = useDispatch();
   const globalCart = useSelector((state) => state.cart.items);
@@ -30,10 +35,11 @@ function Card({
           image: images[0],
           name,
           description,
-          price,
+          price: displayPrice?.amt,
           _id,
           discount,
           Qty: 1,
+          currency: displayPrice.symbol,
         })
       );
       setCardAdded(true);
@@ -64,11 +70,10 @@ function Card({
         </p>
         <h2 className="font-semibold mb-3 text-lime-500">
           <span className="line-through text-red-600 mr-3">
-            {currency === "USD" ? "$" : "₹"} {price}
+            {`${displayPrice?.symbol}  ${(displayPrice?.amt).toFixed(2)}`}
           </span>
           <span className="text-lime-500">
-            {currency === "USD" ? "$" : "₹"}{" "}
-            {((price * (100 - discount)) / 100).toFixed(2)}
+            {`${displayPrice?.symbol}  ${((displayPrice?.amt * (100 - discount)) / 100).toFixed(2)}`}
           </span>
         </h2>
         <button
