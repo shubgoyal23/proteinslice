@@ -5,13 +5,13 @@ import { addReview, getReview, updateReview, deleteReview, getAllReviews, allRev
 const router = Router()
 
 
-router.route("").get(getReview)
-router.route("").post(verifyJwt, addReview)
-router.route("").patch(verifyJwt, updateReview)
-router.route("").delete(verifyJwt, deleteReview)
+router.route("/").get(verifyJwt, getReview)
+router.route("/").post(verifyJwt, addReview)
+router.route("/").patch(verifyJwt, updateReview)
+router.route("/").delete(verifyJwt, deleteReview)
 
 
-router.route("/all/:id").get(getAllReviews) // get all reviews of product
+router.route("/all").get(getAllReviews) // get all reviews of product
 router.route("/list").get(verifyJwt, allReviewsOfUser) // get all reviews of an user
 
 export default router

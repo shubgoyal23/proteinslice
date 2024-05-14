@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema(
         ref: "Order",
       },
     ],
-    type: {
+    accountType: {
       type: String,
       default: "customer",
     },
@@ -100,9 +100,9 @@ const userSchema = new mongoose.Schema(
     ],
     userCurrency: {
       type: String,
-      enum: ["INR", "USD", "AED", "EUR", "GBP"],
       default: "INR",
     },
+    avatar: String,
   },
   { timestamps: true }
 );

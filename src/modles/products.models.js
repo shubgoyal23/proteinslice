@@ -62,6 +62,10 @@ const productSchema = new mongoose.Schema(
         ref: "Product",
       },
     ],
+    returnPeriod: {
+      type: Number,
+      default: 10,
+    },
   },
   { timestamps: true }
 );
