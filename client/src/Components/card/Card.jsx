@@ -64,7 +64,7 @@ function Card({
     <>
       <section
         className="p-5 py-6 dark:bg-gray-900 bg-gray-50 rounded-lg text-center transform duration-500 hover:-translate-y-2 cursor-pointer shadow-xl dark:shadow-gray-900 shadow-gray-300"
-        onClick={() => console.log("clicked")}
+        onClick={() => navigate(`/product?id=${_id}`)}
       >
         <img
           src={images[0]}

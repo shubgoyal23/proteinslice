@@ -25,6 +25,7 @@ import {
   SendResetMail,
   ResetPassword,
   OrderDetails,
+  Product,
 } from "./Components/index";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
@@ -61,6 +62,7 @@ const router = createBrowserRouter([
       { path: "/verify", element: <Verify /> },
       { path: "/forgot-password", element: <SendResetMail /> },
       { path: "/reset-password", element: <ResetPassword /> },
+      { path: "/product", element: <Product /> },
     ],
   },
 ]);

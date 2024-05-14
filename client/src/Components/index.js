@@ -27,7 +27,9 @@ import SendResetMail from "./ResetPassword/SendResetMail";
 import ResetPassword from "./ResetPassword/ResetPassword";
 import EmailVerifyBtn from "./EmailVerifyBtn/EmailVerifyBtn";
 import OrderDetails from "./Account/oders/OrderDetails";
+import Product from "./product/Product";
 export {
+  Product,
   StarRating,
   Theme,
   Layout,
