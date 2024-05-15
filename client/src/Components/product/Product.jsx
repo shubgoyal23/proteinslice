@@ -94,7 +94,7 @@ function Product() {
       <div className="w-full flex flex-col md:flex-row md:items-start gap-4 py-6 relative overflow-hidden">
         <div className="flex-1 md:w-1/2 mt-6">
           <ImageGallery images={productDetail?.images || []} />
-          <div className="md:w-[80%] w-full mx-auto md:my-10 flex justify-center gap-4 items-center fixed md:static bottom-0 left-0 p-3 md:p-0 bg-black/10 dark:bg-white/10 backdrop-blur-sm md:bg-transparent dark:md:bg-transparent">
+          <div className="md:w-[80%] z-10 w-full mx-auto md:my-10 flex justify-center gap-4 items-center fixed md:static bottom-0 left-0 p-3 md:p-0 bg-black/10 dark:bg-white/10 backdrop-blur-sm md:bg-transparent dark:md:bg-transparent">
             {productDetail?.availability ? (
               <>
                 <button
