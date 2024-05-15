@@ -17,7 +17,7 @@ function ProductReviews({ id }) {
           className="w-full flex justify-between items-center text-xl mt-6"
           onClick={() => setShowReviewBar((prev) => !prev)}
         >
-          <span className="text-orange-500">Add Product Review</span>
+          <span className="text-amber-500">Add Product Review</span>
           <span>
             {showReviewBar ? (
               <i className="fa-solid fa-caret-up"></i>

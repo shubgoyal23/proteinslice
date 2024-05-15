@@ -1,3 +1,0 @@
-# ProteinSlice
-
-## online store

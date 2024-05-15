@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import conf from "../../service/conf/conf";
 import ImageGallery from "./ImageGallery";
-import StarRating from "../StarRating/StarRating";
+import { StarRating } from "../index";
 import { v4 as uuid } from "uuid";
 import {
   currencyConvert,

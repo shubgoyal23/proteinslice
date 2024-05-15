@@ -6,7 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const addReview = asyncHandler(async (req, res) => {
-  const { product, rating, comment, tittle } = req.body;
+  const { product, rating, comment, title } = req.body;
 
   if (!rating && isNaN(rating)) {
     throw new ApiError(401, "Rating is required");
@@ -30,7 +30,7 @@ const addReview = asyncHandler(async (req, res) => {
     product,
     rating,
     comment,
-    tittle,
+    title,
     user: req.user?._id,
   });
 
@@ -71,7 +71,7 @@ const getReview = asyncHandler(async (req, res) => {
 });
 
 const updateReview = asyncHandler(async (req, res) => {
-  const { product, rating, comment, tittle } = req.body;
+  const { product, rating, comment, title } = req.body;
   if (!product) {
     throw new ApiError(401, "review id is required to edit review details");
   }
@@ -87,8 +87,8 @@ const updateReview = asyncHandler(async (req, res) => {
   if (comment) {
     edit.comment = comment;
   }
-  if (tittle) {
-    edit.tittle = tittle;
+  if (title) {
+    edit.title = title;
   }
 
   await edit.save({ validateBeforeSave: true });
@@ -128,15 +128,14 @@ const getAllReviews = asyncHandler(async (req, res) => {
   if (!p) {
     throw new ApiError(401, "id is required to get reviews");
   }
-
   const options = {
     page: page || 1,
     limit: limit || 10,
   };
 
-  const reviewsQuery = [
+  const reviewsQuery = Review.aggregate([
     {
-      $match: { product: p },
+      $match: { product: new mongoose.Types.ObjectId(p) },
     },
     {
       $lookup: {
@@ -151,20 +150,20 @@ const getAllReviews = asyncHandler(async (req, res) => {
       $project: {
         _id: 1,
         rating: 1,
-        tittle: 1,
+        title: 1,
         comment: 1,
-        createdAt: 1,
+        updatedAt: 1,
         user: 1,
         userName: "$userInfo.fullname",
         avatar: "$userInfo.avatar",
         country: "$userInfo.address.country",
       },
     },
-  ];
+  ]);
 
   const reviews = await Review.aggregatePaginate(reviewsQuery, options);
 
-  if (reviews.length === 0) {
+  if (reviews.docs.length === 0) {
     throw new ApiError(401, "No review found for this product");
   }
 

@@ -1,1 +1,3 @@
-live site [here](https://proteinslice.com/)
+# ProteinSlice Store
+
+##  live site [here](https://proteinslice.com/)
