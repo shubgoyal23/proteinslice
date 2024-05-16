@@ -36,11 +36,11 @@ function Product() {
           image: productDetail.images[0],
           name: productDetail.name,
           description: productDetail.description,
-          price: displayPrice?.amt,
+          price: productDetail.price,
           _id: productDetail._id,
           discount: productDetail.discount,
           Qty: productQuantity,
-          currency: userCurrency,
+          currency: productDetail.currency,
         })
       );
       setCardAdded(true);

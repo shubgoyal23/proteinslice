@@ -2,31 +2,42 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Items from "./Items";
 import { useNavigate } from "react-router-dom";
+import { currencyConvert } from "../../service/currencyConvertor/currencyConvert";
 
 function GlobalCart() {
-  const cartSlice = useSelector((state) => state.cart.items);
+  const cart = useSelector((state) => state.cart.items);
+  const userCurrency = useSelector((state) => state.currency.userCurrency);
   const navigate = useNavigate();
-  const [cart, setCart] = useState([]);
-
-  const total = cart.reduce((accumulator, currentValue) => {
-    let value =
-      (currentValue.price * currentValue.Qty * (100 - currentValue.discount)) /
-      100;
-    return accumulator + value;
-  }, 0);
+  const [displayPrice, setDisplayPrice] = useState({
+    amt: 0,
+    symbol: "??",
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   useEffect(() => {
+    const total = cart.reduce((accumulator, currentValue) => {
+      let value =
+        (currentValue.price *
+          currentValue.Qty *
+          (100 - currentValue.discount)) /
+        100;
+      return accumulator + value;
+    }, 0);
+
     (async () => {
-      
-      const data = await currencyConvert(userCurrency, currency, price);
+      const data = await currencyConvert(
+        userCurrency,
+        cart[0]?.currency,
+        total
+      );
       if (data) {
         setDisplayPrice(data);
       }
     })();
-  }, [cartSlice]);
+  }, [cart, userCurrency]);
 
   return (
     <div className="lg:p-6 p-3 flex flex-col lg:flex-row">
@@ -43,8 +54,8 @@ function GlobalCart() {
 
         <div className="border-t-2 border-gray-700 dark:border-gray-300 w-full pt-2 mt-4">
           <h1 className="text-2xl text-end">
-            Subtotal ({cart.length} items): {cart[0]?.currency || "$"}
-            {total?.toFixed(2)}
+            Subtotal ({cart.length} items): {displayPrice.symbol || "$"}
+            {displayPrice?.amt?.toFixed(2)}
           </h1>
         </div>
 

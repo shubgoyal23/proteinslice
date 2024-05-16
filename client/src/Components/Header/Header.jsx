@@ -91,6 +91,8 @@ function Header() {
               {name}
             </NavLink>
           ))}
+
+          {/* for Account */}
           <div className="md:relative block md:h-20 md:pt-4">
             <button
               className="text-2xl font-medium text-lime-500 hover:text-amber-400 py-2 px-2"
@@ -172,7 +174,7 @@ function Header() {
           </div>
 
           {/* for currency change */}
-          <div className="md:hidden block md:h-20 md:pt-4">
+          <div className="md:hidden block">
             <button
               className="text-2xl font-medium text-lime-500 hover:text-amber-400 py-2 px-2"
               onClick={() =>
@@ -185,8 +187,8 @@ function Header() {
               <i className="fa-solid fa-caret-down ml-2"></i>
             </button>
             <div
-              className={`md:w-[200%] w-full h-96 overflow-y-auto left-1/2 top-20 md:-translate-x-1/2 z-20 flex flex-col gap-1 rounded-lg border-2 border-slate-300 border-solid pt-1 bg-gray-200 dark:bg-gray-900 text-amber-400 ${
-                display.currency ? "md:absolute block" : "hidden"
+              className={`w-full h-96 overflow-y-auto z-20 flex flex-col gap-1 rounded-lg border-2 border-slate-300 border-solid py-2 bg-gray-200 dark:bg-gray-900 text-amber-400 ${
+                display.currency ? "block" : "hidden"
               }`}
               onClick={() =>
                 setDisplay((prev) => {
@@ -216,7 +218,8 @@ function Header() {
           </div>
         </div>
 
-        <div className=" md:flex hidden justify-center items-center pr-4">
+        {/* shown on desktop only */}
+        <div className="md:flex hidden justify-center items-center pr-4">
           <div className="relative flex-1 flex justify-end justify-items-end flex-col md:flex-row">
             <Link to={"/cart"}>
               <button className="relative text-2xl font-medium text-red-500 py-2 px-2">
@@ -227,7 +230,8 @@ function Header() {
               </button>
             </Link>
           </div>
-          <div className="md:relative block md:h-20 md:pt-4">
+          {/* currency */}
+          <div className="relative group block md:h-20 md:pt-4">
             <button
               className="text-2xl font-medium text-lime-500 hover:text-amber-400 py-2 px-2"
               onClick={() =>
@@ -237,25 +241,14 @@ function Header() {
               }
             >
               {getCurrencysymbol(userCurrency)}
-              <i className="fa-solid fa-caret-down ml-1 text-lg pb-3"></i>
             </button>
             <div
-              className={`md:w-[200%] w-full h-96 overflow-y-auto left-1/2 top-20 md:-translate-x-1/2 z-20 flex flex-col gap-1 rounded-lg border-2 border-slate-300 border-solid pt-1 bg-gray-200 dark:bg-gray-900 text-amber-400 ${
-                display.currency ? "md:absolute block" : "hidden"
-              }`}
-              onClick={() =>
-                setDisplay((prev) => {
-                  return { ...prev, currency: !prev.currency };
-                })
-              }
+              className={`md:w-[300%] group-hover:absolute hidden h-96 overflow-y-auto left-1/2 top-20 -translate-x-1/2 z-20 group-hover:flex flex-col gap-1 rounded-lg border-2 border-slate-300 border-solid py-3 bg-gray-200 dark:bg-gray-900 text-amber-400`}
             >
               {Object.keys(currencySymbolsToSymbols).map((item) => (
                 <span
                   key={item}
                   onClick={() => {
-                    setDisplay((prev) => {
-                      return { ...prev, nav: false };
-                    });
                     dispatch(changeCurrency(item));
                   }}
                   className="bg-transparent text-lime-500 text-base cursor-pointer hover:text-amber-400 text-center"

@@ -47,11 +47,11 @@ function Card({
           image: images[0],
           name,
           description,
-          price: displayPrice?.amt,
+          price: price,
           _id,
           discount,
           Qty: 1,
-          currency: userCurrency,
+          currency: currency,
         })
       );
       setCardAdded(true);

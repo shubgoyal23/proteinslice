@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeItem, addQty, decreaseQty } from "../../store/cartSlice";
 import { Link } from "react-router-dom";
+import { currencyConvert } from "../../service/currencyConvertor/currencyConvert";
 
 function Items({ data }) {
   const dispatch = useDispatch();
+  const userCurrency = useSelector((state) => state.currency.userCurrency);
+  const [displayPrice, setDisplayPrice] = useState({
+    amt: 0,
+    symbol: "??",
+  });
+  useEffect(() => {
+    (async () => {
+      const crr = await currencyConvert(
+        userCurrency,
+        data?.currency,
+        data.price
+      );
+      if (crr) {
+        setDisplayPrice(crr);
+      }
+    })();
+  }, [userCurrency]);
   return (
     <div className="w-full flex justify-start mb-3">
       <div className="w-1/5 max-w-20 aspect-square rounded-md overflow-hidden m-3 mx-auto">
@@ -49,20 +67,20 @@ function Items({ data }) {
           <span className="text-sm text-gray-600 dark:text-gray-300">
             Price:{" "}
             <span className="text-red-500 line-through mr-1">
-              {data?.currency}
-              {data.price.toFixed(2)}
+              {displayPrice?.symbol}
+              {displayPrice?.amt?.toFixed(2)}
             </span>
             <span className="text-lime-500">
-              {data?.currency}
-              {((data.price * (100 - data.discount)) / 100).toFixed(2)}
+              {displayPrice?.symbol}
+              {((displayPrice?.amt * (100 - data.discount)) / 100).toFixed(2)}
             </span>
             <span className="dark:text-white text-gray-800"> x </span>
             <span className="text-lime-500">{data.Qty}</span>
             <span className="dark:text-white text-gray-800"> = </span>
             <span className="text-amber-500">
-              {data?.currency || "$"}
+              {displayPrice?.symbol || "$"}
               {(
-                ((data.price * (100 - data.discount)) / 100) *
+                ((displayPrice?.amt * (100 - data.discount)) / 100) *
                 data.Qty
               ).toFixed(2)}
             </span>

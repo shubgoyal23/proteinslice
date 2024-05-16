@@ -24,6 +24,7 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #555; 
+  border-radius: 10px;
 }
 
 /* Handle on hover */

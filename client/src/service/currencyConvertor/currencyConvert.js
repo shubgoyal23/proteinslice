@@ -52,7 +52,6 @@ export async function currencyConvert(currencyTo, currencyFrom, amount) {
 }
 
 export function setUserCurrency(crr) {
-  console.log(crr)
   if (crr) {
     window.localStorage.setItem("userCurrency", crr);
   }
