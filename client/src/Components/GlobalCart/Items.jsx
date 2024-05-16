@@ -1,10 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeItem, addQty, decreaseQty } from "../../store/cartSlice";
+import { Link } from "react-router-dom";
 
 function Items({ data }) {
   const dispatch = useDispatch();
-
   return (
     <div className="w-full flex justify-start mb-3">
       <div className="w-1/5 max-w-20 aspect-square rounded-md overflow-hidden m-3 mx-auto">
@@ -15,7 +15,9 @@ function Items({ data }) {
         />
       </div>
       <div className="w-4/5 md:ml-3 px-3 border-b-[1px] border-gray-500">
-        <h1 className="text-xl text-lime-500">{data.name}</h1>
+        <Link to={`/product?id=${data._id}`} className="text-xl text-lime-500">
+          {data.name}
+        </Link>
 
         <div className="flex gap-2 justify-between items-start w-full my-2 md:flex-row">
           <div>

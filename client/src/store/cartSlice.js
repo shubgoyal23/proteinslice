@@ -3,6 +3,7 @@ import {
   getCartFromStorage,
   saveCartToStorage,
 } from "../service/cartHandler/cartHandler";
+import { currencyConvert } from "../service/currencyConvertor/currencyConvert";
 
 const CartSlice = createSlice({
   name: "cart",
@@ -70,6 +71,11 @@ const CartSlice = createSlice({
   },
 });
 
-export const { addItem, addQty, removeItem, decreaseQty, changeQty } =
-  CartSlice.actions;
+export const {
+  addItem,
+  addQty,
+  removeItem,
+  decreaseQty,
+  changeQty,
+} = CartSlice.actions;
 export default CartSlice.reducer;

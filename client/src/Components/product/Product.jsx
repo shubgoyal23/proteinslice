@@ -14,7 +14,7 @@ import { addItem, changeQty } from "../../store/cartSlice";
 import ProductReviews from "./ProductReviews";
 
 function Product() {
-  const userCurrency = getUserCurrency();
+  const userCurrency = useSelector((state) => state.currency.userCurrency);
   const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [productDetail, setProductDetails] = useState({});
@@ -40,7 +40,7 @@ function Product() {
           _id: productDetail._id,
           discount: productDetail.discount,
           Qty: productQuantity,
-          currency: displayPrice.symbol,
+          currency: userCurrency,
         })
       );
       setCardAdded(true);
@@ -76,6 +76,10 @@ function Product() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    getCurrency(userCurrency, productDetail?.currency, productDetail?.price);
+  }, [userCurrency]);
 
   const getCurrency = async (userCurrency, currency, price) => {
     const data = await currencyConvert(userCurrency, currency, price);

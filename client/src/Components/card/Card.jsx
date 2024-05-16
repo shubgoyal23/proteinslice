@@ -17,7 +17,7 @@ function Card({
   currency,
   rating,
 }) {
-  const userCurrency = getUserCurrency();
+  const userCurrency = useSelector((state) => state.currency.userCurrency);
   const [displayPrice, setDisplayPrice] = useState({
     amt: price,
     symbol: "??",
@@ -37,7 +37,7 @@ function Card({
         setDisplayPrice(data);
       }
     })();
-  }, []);
+  }, [userCurrency]);
 
   function addtoCartHandler(e) {
     e.stopPropagation();
@@ -51,7 +51,7 @@ function Card({
           _id,
           discount,
           Qty: 1,
-          currency: displayPrice.symbol,
+          currency: userCurrency,
         })
       );
       setCardAdded(true);

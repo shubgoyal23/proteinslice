@@ -1,12 +1,41 @@
 import axios from "axios";
 import conf from "../conf/conf";
 
-const currencySymbolsToSymbols = {
+export const currencySymbolsToSymbols = {
   INR: "₹",
   USD: "$",
-  AED: "د.إ",
   EUR: "€",
+  JPY: "¥",
   GBP: "£",
+  CNY: "¥",
+  AUD: "$",
+  CHF: "Rp.",
+  CAD: "$",
+  // Rest of the currencies remain in alphabetical order
+  BGN: "лв",
+  BRL: "R$",
+  CZK: "Kč",
+  DKK: "kr.",
+  HKD: "HK$",
+  HRK: "kn",
+  HUF: "Ft",
+  IDR: "Rp",
+  ILS: "₪",
+  ISK: "kr.",
+  KRW: "₩",
+  MXN: "$",
+  MYR: "RM",
+  NOK: "kr",
+  NZD: "$",
+  PHP: "₱",
+  PLN: "zł",
+  RON: "lei",
+  RUB: "₽",
+  SEK: "kr",
+  SGD: "$",
+  THB: "฿",
+  TRY: "₺",
+  ZAR: "R",
 };
 
 export async function currencyConvert(currencyTo, currencyFrom, amount) {
@@ -23,6 +52,7 @@ export async function currencyConvert(currencyTo, currencyFrom, amount) {
 }
 
 export function setUserCurrency(crr) {
+  console.log(crr)
   if (crr) {
     window.localStorage.setItem("userCurrency", crr);
   }
@@ -77,4 +107,8 @@ async function fetchedData() {
     console.error("Failed to fetch currency list:", error);
     throw error;
   }
+}
+
+export function getCurrencysymbol(crr) {
+  return currencySymbolsToSymbols[crr] || "INR";
 }
