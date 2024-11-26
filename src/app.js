@@ -1,19 +1,13 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import { ApiError } from "./utils/ApiError.js";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import path from "path";
 import cors from "cors";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.use(cookieParser());
 
 import paymentRouter from "./routers/payment.router.js";
@@ -48,10 +42,6 @@ app.use((err, req, res, next) => {
       message: err.message || "Something went wrong",
     });
   }
-});
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../client/dist/index.html"));
 });
 
 export { app };
