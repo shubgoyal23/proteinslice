@@ -44,4 +44,12 @@ app.use((err, req, res, next) => {
   }
 });
 
+app.get("/ping", (req, res) => {
+  res.status(200).json({ message: "pong" });
+})
+
+app.get("*", (req, res) => {
+  res.redirect(`${process.env.CORS_ORIGIN}`);
+});
+
 export { app };
