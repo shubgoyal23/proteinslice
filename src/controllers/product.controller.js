@@ -3,7 +3,9 @@ import { Product } from "../modles/products.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const allProducts = asyncHandler(async (req, res) => {
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const allProducts = asyncHandler(async (_req, res) => {
   const products = await Product.find();
   res
     .status(200)
@@ -14,10 +16,11 @@ const productSearch = asyncHandler(async (req, res) => {
   if (!query) {
     throw new ApiError(401, "query is required");
   }
+  const safeQuery = escapeRegex(String(query).slice(0, 100));
   const product = await Product.find({
     $or: [
-      { name: { $regex: query, $options: "i" } },
-      { description: { $regex: query, $options: "i" } },
+      { name: { $regex: safeQuery, $options: "i" } },
+      { description: { $regex: safeQuery, $options: "i" } },
     ],
   });
 
@@ -34,8 +37,9 @@ const brandSearch = asyncHandler(async (req, res) => {
   if (!query) {
     throw new ApiError(401, "query is required");
   }
+  const safeQuery = escapeRegex(String(query).slice(0, 100));
   const product = await Product.find({
-    brand: { $regex: query, $options: "i" },
+    brand: { $regex: safeQuery, $options: "i" },
   });
 
   if (product.length === 0) {
@@ -49,10 +53,12 @@ const brandSearch = asyncHandler(async (req, res) => {
 
 const categorySearch = asyncHandler(async (req, res) => {
   const { q: query, limit } = req.query;
+  const safeQuery = escapeRegex(String(query).slice(0, 100));
+  const safeLimit = Math.min(Math.max(parseInt(limit) || 20, 1), 100);
   const product = await Product.aggregate([
     {
       $match: {
-        category: { $regex: query },
+        category: { $regex: safeQuery, $options: "i" },
       },
     },
     {
@@ -61,7 +67,7 @@ const categorySearch = asyncHandler(async (req, res) => {
       },
     },
     {
-      $limit: parseInt(limit),
+      $limit: safeLimit,
     },
   ]);
 
@@ -141,7 +147,6 @@ const deleteproduct = asyncHandler(async (req, res) => {
   }
 
   const product = await Product.findByIdAndDelete(id);
-  console.log(product);
   if (!product) {
     throw new ApiError(404, "No product found");
   }

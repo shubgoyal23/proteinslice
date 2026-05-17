@@ -13,7 +13,8 @@ import { User } from "../modles/user.models.js";
 async function getCurrencyList() {
   try {
     const { data } = await axios.get(
-      `https://api.freecurrencyapi.com/v1/latest?apikey=${process.env.CURRENCY_API}`
+      `https://api.freecurrencyapi.com/v1/latest?apikey=${process.env.CURRENCY_API}`,
+      { timeout: 5000 }
     );
     return data.data;
   } catch (error) {
@@ -127,7 +128,7 @@ const createOrder = asyncHandler(async (req, res) => {
     )
   );
 });
-const key = asyncHandler(async (req, res) => {
+const key = asyncHandler(async (_req, res) => {
   res
     .status(200)
     .json(
@@ -153,10 +154,10 @@ const verifyPayment = asyncHandler(async (req, res) => {
   const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
     req.body;
 
-  if (!(razorpay_order_id === order.payment)) {
-    throw new ApiError(401, "Payment Verification failed");
+  if (!(razorpay_payment_id && razorpay_order_id && razorpay_signature)) {
+    throw new ApiError(401, "Payment failed");
   }
-  if (!(razorpay_order_id || razorpay_order_id || razorpay_signature)) {
+  if (razorpay_order_id !== order.payment) {
     throw new ApiError(401, "Payment Verification failed");
   }
 

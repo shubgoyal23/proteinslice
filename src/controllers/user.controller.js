@@ -183,7 +183,9 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const currentUser = asyncHandler(async (req, res) => {
   try {
-    const accessToken = req?.cookies?.accessToken || req.body?.accessToken;
+    const accessToken =
+      req?.cookies?.accessToken ||
+      req.headers?.authorization?.replace("Bearer ", "");
 
     const decodetoken = jwt.verify(
       accessToken,
@@ -254,7 +256,7 @@ const updateAddress = asyncHandler(async (req, res) => {
 });
 
 const refereshTokens = asyncHandler(async (req, res) => {
-  const token = req.cookies?.refreshToken || req.body.refreshToken;
+  const token = req.cookies?.refreshToken;
 
   if (!token) {
     throw new ApiError(401, "Refresh token is required");

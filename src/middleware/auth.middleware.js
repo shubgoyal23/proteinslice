@@ -3,9 +3,11 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../modles/user.models.js";
 
-const verifyJwt = asyncHandler(async (req, res, next) => {
+const verifyJwt = asyncHandler(async (req, _res, next) => {
   try {
-    const accessToken = req?.cookies?.accessToken || req.body?.accessToken;
+    const accessToken =
+      req?.cookies?.accessToken ||
+      req.headers?.authorization?.replace("Bearer ", "");
 
     if (!accessToken) {
       throw new ApiError(404, "unauthorised request");
