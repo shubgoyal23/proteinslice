@@ -60,7 +60,7 @@ app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/verify", strictLimiter, verificationRouter);
 app.use("/api/v1/contact", strictLimiter, contactRouter);
-app.use("/api/v1/currencylist", currencyRouter);
+app.use("/api/v1/currencylist", strictLimiter, currencyRouter);
 
 app.use((err, req, res, next) => {
   if (err instanceof ApiError) {
