@@ -8,7 +8,7 @@ import {
   brandSearch,
   categorySearch,
   editproduct,
-  deleteproduct
+  deleteproduct,
 } from "../controllers/product.controller.js";
 const router = Router();
 

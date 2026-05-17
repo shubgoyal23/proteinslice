@@ -24,7 +24,10 @@ const globalLimiter = rateLimit({
   limit: 150,
   standardHeaders: "draft-8",
   legacyHeaders: false,
-  message: { success: false, message: "Too many requests, please try again later." },
+  message: {
+    success: false,
+    message: "Too many requests, please try again later.",
+  },
 });
 
 // Strict limit for expensive/sensitive endpoints (auth, contact, verification)
@@ -33,7 +36,10 @@ const strictLimiter = rateLimit({
   limit: 10,
   standardHeaders: "draft-8",
   legacyHeaders: false,
-  message: { success: false, message: "Too many requests, please try again later." },
+  message: {
+    success: false,
+    message: "Too many requests, please try again later.",
+  },
 });
 
 app.use(globalLimiter);

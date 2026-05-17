@@ -21,11 +21,11 @@ const reviewSchema = mongoose.Schema(
     },
     title: {
       type: String,
-      maxLength: 50
+      maxLength: 50,
     },
     comment: {
       type: String,
-      maxLength: 300
+      maxLength: 300,
     },
   },
   { timestamps: true }
